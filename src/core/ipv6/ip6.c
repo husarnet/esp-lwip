@@ -272,6 +272,12 @@ ip6_select_source_address(struct netif *netif, const ip6_addr_t *dest)
     }
   }
 
+  /* Even 'laster' resort - just return some IPv6 interface */
+  for (i = 0; i < LWIP_IPV6_NUM_ADDRESSES; i++) {
+    if (ip6_addr_isvalid(netif_ip6_addr_state(netif, i)))
+      return netif_ip_addr6(netif, i);
+  }
+
   return NULL;
 }
 
